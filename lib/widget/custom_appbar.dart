@@ -32,6 +32,6 @@ PreferredSizeWidget customAppBar(
           ),
     elevation: 0,
     backgroundColor: AppColors.bgColor,
-    actions: [Icon(action,)],
+    actions: [Icon(action,color: Colors.black,size: 55,)],
   );
 }
