@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "369252488075",
+    "project_id": "malltiverse-5c4ed",
+    "storage_bucket": "malltiverse-5c4ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369252488075:android:491a4fc195a7778900558e",
+        "android_client_info": {
+          "package_name": "com.example.malltiverse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUOeNxg5obLiQWTfyYcXSEoalLID0Lf2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
