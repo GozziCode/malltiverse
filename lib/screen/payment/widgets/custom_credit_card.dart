@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../constant/constant.dart';
+import '../../../constant/constant.dart';
 
 class CustomCreditCard extends StatefulWidget {
   final String cardNum, expiryDate, cvv;
@@ -41,8 +41,9 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
         ),
         Positioned(
           left: 27.w,
-          bottom: 43,
+          bottom: 20,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Card holder name',
@@ -52,40 +53,39 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
                     color: AppColors.white),
               ),
               SizedBox(
-                width: 25.w,
+                height: 5.h,
               ),
-               SizedBox(
-                  width: 100.w,
-                  child: Text(
-                    'Your name',
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.poppins(
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white),
-                  ),
+              SizedBox(
+                width: 100.w,
+                child: Text(
+                  'Your name',
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.poppins(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white),
                 ),
-              
+              ),
             ],
           ),
         ),
         Positioned(
-          left: 27.w,
-          bottom: 25,
+          left: 160.w,
+          bottom: 20,
           child: SizedBox(
             width: 145.w,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-               Text(
-                'Expiry date',
-                style: GoogleFonts.poppins(
-                    fontSize: 11.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.white),
-              ),
+                Text(
+                  'Expiry date',
+                  style: GoogleFonts.poppins(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.white),
+                ),
                 SizedBox(
-                  width: 20.w,
+                  height: 5.h,
                 ),
                 Text(
                   widget.expiryDate,

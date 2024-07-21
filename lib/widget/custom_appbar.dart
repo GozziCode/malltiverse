@@ -9,6 +9,7 @@ PreferredSizeWidget customAppBar(
     required String title,
     IconData? icon,
     IconData? action,
+    VoidCallback? onTap,
     VoidCallback? onBackPress}) {
   return AppBar(
     title: Text(
@@ -32,6 +33,18 @@ PreferredSizeWidget customAppBar(
           ),
     elevation: 0,
     backgroundColor: AppColors.bgColor,
-    actions: [Icon(action,color: Colors.black,size: 55,)],
+    actions: [
+      GestureDetector(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 24),
+          child: Icon(
+            action,
+            color: Colors.black,
+            size: 32,
+          ),
+        ),
+      )
+    ],
   );
 }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:malltiverse/screen/cart_screen.dart';
-import 'package:malltiverse/screen/checkout_sreen.dart';
+import 'package:malltiverse/screen/cart/cart_screen.dart';
+import 'package:malltiverse/screen/order/order_history.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../constant/constant.dart';
-import '../widget/bottom_nav_bar.dart';
 import '../widget/custom_appbar.dart';
-import 'homescreen.dart';
-import 'payment_screen.dart';
+import 'bottom_nav/bottom_nav_bar.dart';
+import 'checkout/checkout_sreen.dart';
+import 'home/homescreen.dart';
+import 'payment/payment_screen.dart';
 import 'success_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class _MainScreenState extends State<MainScreen>
   int _currentIndex = 0;
   bool _showPaymentScreen = false;
   bool _showSuccessScreen = false;
+  bool _showOrderHistory = false;
 
   late List<Widget> _screens;
 
@@ -30,18 +32,17 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     super.initState();
     // deleteDatabaseFile();
-
-//Here i listed all the tabs to be shown, included it on the initialize state to make sure it builds on appstart.
-//The parameters on the screens are to aid switching the tabs without affecting the bottomnav bar
-//and providing a custom app bar
     _screens = [
       const Homescreen(),
       CartScreen(switchTab: switchTab),
-      CheckoutSreen(switchToPayment: _switchToPayment),
+      CheckoutSreen(
+        switchToPayment: _switchToPayment,
+        switchToHome: _goBackToHome,
+      ),
+      const OrderHistory(),
     ];
   }
 
-//for resetting local database
   Future<void> deleteDatabaseFile() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'cart.db');
@@ -54,6 +55,7 @@ class _MainScreenState extends State<MainScreen>
       _currentIndex = index;
       _showPaymentScreen = false;
       _showSuccessScreen = false;
+      _showOrderHistory = false;
     });
   }
 
@@ -61,6 +63,7 @@ class _MainScreenState extends State<MainScreen>
     setState(() {
       _showPaymentScreen = true;
       _showSuccessScreen = false;
+      _showOrderHistory = false;
     });
   }
 
@@ -68,6 +71,7 @@ class _MainScreenState extends State<MainScreen>
     setState(() {
       _showPaymentScreen = false;
       _showSuccessScreen = false;
+      _showOrderHistory = false;
     });
   }
 
@@ -75,6 +79,25 @@ class _MainScreenState extends State<MainScreen>
     setState(() {
       _showPaymentScreen = false;
       _showSuccessScreen = true;
+      _showOrderHistory = false;
+    });
+  }
+
+  void _showOrderHistoryScreen() {
+    setState(() {
+      _currentIndex = 3; // This is set to indicate OrderHistory tab
+      _showOrderHistory = true;
+      _showPaymentScreen = false;
+      _showSuccessScreen = false;
+    });
+  }
+
+  void _goBackToHome() {
+    setState(() {
+      _currentIndex = 0;
+      _showOrderHistory = false;
+      _showPaymentScreen = false;
+      _showSuccessScreen = false;
     });
   }
 
@@ -84,7 +107,8 @@ class _MainScreenState extends State<MainScreen>
       customAppBar(
         context: context,
         title: 'Product List',
-        action: Icons.history,
+        action: Icons.shopping_bag_outlined,
+        onTap: _showOrderHistoryScreen,
       ),
       customAppBar(
         context: context,
@@ -100,7 +124,14 @@ class _MainScreenState extends State<MainScreen>
         icon: _showPaymentScreen ? Icons.arrow_back : null,
         onBackPress: _showPaymentScreen ? _switchToCheckout : null,
       ),
+      customAppBar(
+        context: context,
+        title: 'Order History',
+        icon: Icons.arrow_back,
+        onBackPress: _goBackToHome,
+      ),
     ];
+
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       extendBody: true,
@@ -116,7 +147,14 @@ class _MainScreenState extends State<MainScreen>
                   context: context,
                   title: '',
                 )
-              : appBars[_currentIndex],
+              : _showOrderHistory
+                  ? customAppBar(
+                      context: context,
+                      title: 'Order History',
+                      icon: Icons.arrow_back,
+                      onBackPress: _goBackToHome,
+                    )
+                  : appBars[_currentIndex],
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SizedBox(
@@ -125,16 +163,19 @@ class _MainScreenState extends State<MainScreen>
               ? const SuccessScreen()
               : _showPaymentScreen
                   ? PaymentScreen(switchToSuccess: _switchToSuccess)
-                  : _screens[_currentIndex],
+                  : _showOrderHistory
+                      ? const OrderHistory()
+                      : _screens[_currentIndex],
         ),
       ),
       bottomNavigationBar: BottomNavBar(
-        currentIndex: _currentIndex,
+        currentIndex: _showOrderHistory ? 0 : _currentIndex,
         onItemChanged: (index) {
           setState(() {
             _currentIndex = index;
             _showPaymentScreen = false;
             _showSuccessScreen = false;
+            _showOrderHistory = false;
           });
         },
         navBarItems: [

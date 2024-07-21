@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../models/cart_model.dart';
+import '../models/order_model.dart';
 
 class DBHelper {
   static final DBHelper _instance = DBHelper._internal();
@@ -24,8 +25,9 @@ class DBHelper {
     
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _createDB,
+      onUpgrade: _upgradeDB,
     );
   }
 
@@ -38,8 +40,37 @@ class DBHelper {
         description TEXT,
         price REAL,
         quantity INTEGER
+        totalAmount REAL
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE orders (
+        id TEXT PRIMARY KEY,
+        items TEXT,
+        totalAmount REAL,
+        dateTime TEXT,
+        address TEXT,
+        contactDetails TEXT,
+        paymentConfirmed INTEGER
+      )
+    ''');
+  }
+  
+Future<void> _upgradeDB(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('''
+        CREATE TABLE orders (
+          id TEXT PRIMARY KEY,
+          items TEXT,
+          totalAmount REAL,
+          dateTime TEXT,
+          address TEXT,
+          contactDetails TEXT,
+          paymentConfirmed INTEGER
+        )
+      ''');
+    }
   }
 
   Future<void> insertCartItem(CartItem cartItem) async {
@@ -75,4 +106,23 @@ class DBHelper {
     final db = await database;
     await db.delete('cart');
   }
+
+  //Methods for orders 
+ Future<void> insertOrder(Order order) async {
+    final db = await database;
+    await db.insert('orders', order.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+   Future<List<Order>> getOrderHistory() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('orders');
+    return List.generate(maps.length, (i) {
+      return Order.fromMap(maps[i]);
+    });
+  }
+Future<void> deleteOrder(String id) async {
+    final db = await database;
+    await db.delete('orders', where: 'id = ?', whereArgs: [id]);
+  }
+  
 }

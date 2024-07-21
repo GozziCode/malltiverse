@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:malltiverse/screen/cart_screen.dart';
+import 'package:provider/provider.dart';
 
-import '../constant/constant.dart';
-import '../constant/util/card_number_formatter.dart';
-import '../widget/custom_credit_card.dart';
-import '../widget/expiry_date_formatter.dart';
+import '../../constant/constant.dart';
+import '../../constant/util/card_number_formatter.dart';
+import '../../provider/cart_provider.dart';
+import '../../provider/checkout_provider.dart';
+import '../../widget/action_button.dart';
+import '../../constant/util/expiry_date_formatter.dart';
+import 'widgets/confirm_dialogue.dart';
+import 'widgets/custom_credit_card.dart';
 
 class PaymentScreen extends StatefulWidget {
   final VoidCallback switchToSuccess;
@@ -21,8 +25,41 @@ class _PaymentScreenState extends State<PaymentScreen> {
   String cardNumber = '';
   String expiryDate = '';
   String cvv = '';
+
+  void _showConfirmationDialog(
+      BuildContext context, String totalAmount, String address) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmationDialog(
+          totalAmount: totalAmount,
+          address: address,
+          onConfirm: () async {
+            final cartProvider =
+                Provider.of<CartProvider>(context, listen: false);
+            final checkoutProvider =
+                Provider.of<CheckoutProvider>(context, listen: false);
+
+            // Create order history and stores the order in local db
+            await cartProvider.createOrder(checkoutProvider: checkoutProvider);
+
+            // To clear cart and database
+            await cartProvider.clear();
+            checkoutProvider.reset();
+            if (context.mounted) {
+              Navigator.of(context).pop();
+            }
+            widget.switchToSuccess();
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final cartController = Provider.of<CartProvider>(context);
+
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -159,7 +196,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
             ),
             SizedBox(height: 70.h),
-            ActionButton(text: 'Make Payment', onTap: widget.switchToSuccess)
+            ActionButton(
+              text: 'Make Payment',
+              onTap: () {
+                final checkoutProvider =
+                    Provider.of<CheckoutProvider>(context, listen: false);
+                _showConfirmationDialog(context, cartController.totalAmount,
+                    checkoutProvider.getFinalAddress());
+              },
+            )
           ],
         ),
       ),

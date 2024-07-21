@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../constant/constant.dart';
-import '../widget/product_card.dart';
+import '../../../constant/constant.dart';
+import '../../../models/product_model.dart';
 
-import '../models/product_model.dart';
+
+
+import 'product_card.dart';
 
 class CategoryBuilder extends StatefulWidget {
   const CategoryBuilder(

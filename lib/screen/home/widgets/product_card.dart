@@ -5,9 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../constant/constant.dart';
-import '../models/product_model.dart';
-import '../provider/cart_provider.dart';
+import '../../../constant/constant.dart';
+import '../../../models/product_model.dart';
+import '../../../provider/cart_provider.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;

@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 
 import 'constant/constant.dart';
 import 'provider/cart_provider.dart';
+import 'provider/checkout_provider.dart';
 import 'provider/product_provider.dart';
 
 void main() {
-    WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => ProductProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
+         ChangeNotifierProvider(create: (context) => CheckoutProvider()),
       ],
       child: ScreenUtilInit(
           designSize: const Size(428, 930),
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 colorScheme:
                     ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
-                useMaterial3: false,
+                useMaterial3: true,
               ),
               home: const MainScreen(),
             );

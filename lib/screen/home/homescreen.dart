@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:malltiverse/constant/constant.dart';
-import 'package:malltiverse/screen/cart_screen.dart';
-import 'package:malltiverse/widget/category_builder.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/product_provider.dart';
+import '../../provider/product_provider.dart';
+import '../../widget/action_button.dart';
+import 'widgets/category_builder.dart';
 
 class Homescreen extends StatelessWidget {
   const Homescreen({super.key});
@@ -65,12 +65,23 @@ class Homescreen extends StatelessWidget {
                 return Center(
                     child: Column(
                   children: [
-                    SizedBox(height: 58.h),
-                    Text(productsProvider.errorMessage!),
-                    SizedBox(height: 15.h),
-                    ActionButton(
-                        text: 'Try again',
-                        onTap: productsProvider.fetchProducts)
+                    SizedBox(height: 80.h),
+                    Text(
+                      productsProvider.errorMessage!,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.montserrat(
+                          height: 2,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.black),
+                    ),
+                    SizedBox(height: 40.h),
+                    SizedBox(
+                      width: 200.w,
+                      child: ActionButton(
+                          text: 'Try again',
+                          onTap: productsProvider.fetchProducts),
+                    )
                   ],
                 ));
               } else {

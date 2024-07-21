@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/cart_model.dart';
+import '../models/order_model.dart';
 import '../models/product_model.dart';
 import '../services/db_helper.dart';
+import 'checkout_provider.dart';
 
 class CartProvider extends ChangeNotifier {
   List<CartItem> _cartItems = [];
@@ -126,7 +128,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   String get totalAmount {
-    final cost = _subtotalCost + _deliveryFee - _discountAmount;
+    final cost = (_subtotalCost + _deliveryFee) - _discountAmount;
     final str = NumberFormat('#,##0').format(cost).toString();
     return 'N $str';
   }
@@ -147,5 +149,26 @@ class CartProvider extends ChangeNotifier {
         );
       }
     }
+  }
+
+  // Orders method
+  Future<void> createOrder({
+    required CheckoutProvider checkoutProvider,
+  }) async {
+    final order = Order(
+      id: DateTime.now().toString(),
+      items: List.from(_cartItems),
+      totalAmount:
+          double.parse(totalAmount.replaceAll('N ', '').replaceAll(',', '')),
+      dateTime: DateTime.now(),
+      address: checkoutProvider.getFinalAddress(),
+      contactDetails: [checkoutProvider.contact1, checkoutProvider.contact2],
+      paymentConfirmed: true, // Hardcoded for now
+    );
+
+    await DBHelper().insertOrder(order);
+    debugPrint(order.address);
+    await clear();
+    notifyListeners();
   }
 }
