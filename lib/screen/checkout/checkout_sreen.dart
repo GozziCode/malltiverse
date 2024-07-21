@@ -196,7 +196,7 @@ class _CheckoutSreenState extends State<CheckoutSreen> {
                         child: ActionButton(
                             text: 'Go to Payment',
                             onTap: () {
-                              debugPrint(checkoutProvider.getFinalAddress());
+                              // debugPrint(checkoutProvider.getFinalAddress());
                               validateAndProceed();
                             }))
                   ],

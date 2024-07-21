@@ -29,23 +29,45 @@ class OrderDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Order ID: ${order.id}', style: const TextStyle(fontSize: 18)),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
+              decoration: BoxDecoration(
+                color: AppColors.green.withOpacity(0.09),
+                border: Border.all(
+                    color: AppColors.lightGrey.withOpacity(0.3), width: 1.w),
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DetailHolder(
+                      order: order, title: 'Order ID:', value: order.id),
+                  const SizedBox(height: 10),
+                  DetailHolder(
+                      order: order,
+                      title: 'Total Amount:',
+                      value: ' ${CurrencyFormatter.format(order.totalAmount)}'),
+                  const SizedBox(height: 10),
+                  DetailHolder(
+                      order: order,
+                      title: 'Date:',
+                      value: order.dateTime.toLocal().toString().split(' ')[0]),
+                  const SizedBox(height: 10),
+                  DetailHolder(
+                      order: order, title: 'Address: ', value: order.address),
+                  const SizedBox(height: 10),
+                  DetailHolder(
+                      order: order,
+                      title: 'Contact Details: ',
+                      value: order.contactDetails.length > 1
+                          ? order.contactDetails.first
+                          : order.contactDetails.join(',')),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
             const SizedBox(height: 10),
-            Text('Total Amount: ${CurrencyFormatter.format(order.totalAmount)}',
-                style: const TextStyle(fontSize: 18)),
-            const SizedBox(height: 10),
-            Text('Date: ${order.dateTime.toLocal().toString().split(' ')[0]}',
-                style: const TextStyle(fontSize: 18)),
-            const SizedBox(height: 10),
-            Text('Address: ${order.address}',
-                style: const TextStyle(fontSize: 18)),
-            const SizedBox(height: 10),
-            Text(
-                order.contactDetails.length > 1
-                    ? 'Contact Details: ${order.contactDetails.first}'
-                    : 'Contact Details: ${order.contactDetails.join(',')}',
-                style: const TextStyle(fontSize: 18)),
-            const SizedBox(height: 20),
             Text(
               'Items:',
               style: GoogleFonts.montserrat(
@@ -54,7 +76,6 @@ class OrderDetailScreen extends StatelessWidget {
                 color: AppColors.black,
               ),
             ),
-            const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: order.items.length,
@@ -127,6 +148,50 @@ class OrderDetailScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class DetailHolder extends StatelessWidget {
+  final String title;
+  final String value;
+  const DetailHolder({
+    super.key,
+    required this.order,
+    required this.title,
+    required this.value,
+  });
+
+  final Order order;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 150.w,
+          child: Text(
+            title,
+            style: GoogleFonts.montserrat(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.black,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: GoogleFonts.inter(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+              color: AppColors.black,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

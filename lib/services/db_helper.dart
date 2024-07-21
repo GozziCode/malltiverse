@@ -75,7 +75,7 @@ Future<void> _upgradeDB(Database db, int oldVersion, int newVersion) async {
 
   Future<void> insertCartItem(CartItem cartItem) async {
     final db = await database;
-     debugPrint('Inserting cart item: ${cartItem.toMap()}'); 
+    //  debugPrint('Inserting cart item: ${cartItem.toMap()}'); 
     await db.insert('cart', cartItem.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 

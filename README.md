@@ -180,13 +180,13 @@ Code Structure:
 
 Download the latest version of the app from the link below:
 
-[Download APK](https://drive.google.com/file/d/1aQ1_cS15nVeg-XjGPtP3sb56Ph5sf5KS/view?usp=sharing)
+[Download APK](https://drive.google.com/file/d/1XXX8v1DO0QcqzWVcQ_JOFJ3u2whGq1nl/view?usp=drive_link)
 or
-Download [here](/gitfiles/spicey.apk)
+Download [here](/gitfiles/malltiverse.apk)
 
 ## Appitize Link
 
-Try Spicey Demo: [Appitize.io](https://appetize.io/app/b_lvhmlpm4wge55ebyat2fgni65e)
+Try Malltiverse Demo: [Appitize.io](https://appetize.io/app/b_mpfi3rno2jlttl435yn6fhd6mi)
 
 ## Author
 

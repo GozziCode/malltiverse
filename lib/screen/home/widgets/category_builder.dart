@@ -5,8 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../constant/constant.dart';
 import '../../../models/product_model.dart';
 
-
-
 import 'product_card.dart';
 
 class CategoryBuilder extends StatefulWidget {
@@ -27,18 +25,18 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 460.0,
+      height: 460.0.h,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             widget.title.camelCase(),
             style: GoogleFonts.montserrat(
-              fontSize: 20.0,
+              fontSize: 20.0.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 20.0),
+          //  SizedBox(height: 8.0.h),
           Expanded(
             child: PageView.builder(
               itemCount: _page,
@@ -54,7 +52,7 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
                     Expanded(
                       child: ProductCard(product: widget.products[i1]),
                     ),
-                    const SizedBox(width: 13.0),
+                    SizedBox(width: 13.0.w),
                     Expanded(
                       child: lastIndexReached
                           ? const SizedBox()
@@ -65,20 +63,20 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
               },
             ),
           ),
-           SizedBox(height: 20.h),
+          //  SizedBox(height: 10.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               for (var i = 0; i < _page; i++) ...[
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 500),
-                  height: 12.0,
-                  width: 12.0,
+                  height: 12.0.h,
+                  width: 12.0.h,
                   decoration: BoxDecoration(
                     color: _currentPage == i
                         ? AppColors.primaryColor
                         : AppColors.white,
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(12.0.r),
                     border: _currentPage == i
                         ? null
                         : Border.all(
@@ -86,7 +84,7 @@ class _CategoryBuilderState extends State<CategoryBuilder> {
                           ),
                   ),
                 ),
-                const SizedBox(width: 13.0),
+                SizedBox(width: 13.0.w),
               ],
             ],
           )

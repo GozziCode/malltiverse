@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:malltiverse/screen/main_screen.dart';
+import 'package:malltiverse/screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'constant/constant.dart';
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
                     ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
                 useMaterial3: true,
               ),
-              home: const MainScreen(),
+              home: const SplashScreeen(),
             );
           }),
     );

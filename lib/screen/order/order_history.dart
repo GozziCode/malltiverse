@@ -196,7 +196,7 @@ class OrderItem extends StatelessWidget {
                   ),
                   SizedBox(height: 10.h),
                   Text(
-                    'Numbers of items: ${order.items.length}',
+                    'Items Ordered: ${order.items.length}',
                     style: GoogleFonts.montserrat(
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w400,
